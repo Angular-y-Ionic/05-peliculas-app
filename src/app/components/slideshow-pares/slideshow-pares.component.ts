@@ -1,24 +1,30 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { Pelicula } from '../../interfaces/interfaces';
 import { DetalleComponent } from '../detalle/detalle.component';
 
 @Component({
-  selector: 'app-slideshow-backdrop',
-  templateUrl: './slideshow-backdrop.component.html',
-  styleUrls: ['./slideshow-backdrop.component.scss'],
+  selector: 'app-slideshow-pares',
+  templateUrl: './slideshow-pares.component.html',
+  styleUrls: ['./slideshow-pares.component.scss'],
 })
-export class SlideshowBackdropComponent implements OnInit {
-  @Input() peliculas: Pelicula;
-  slideOpts = {
-    slidesPerView: 1.1,
-    freeMode: true
+export class SlideshowParesComponent implements OnInit {
+  @Input() peliculas: Pelicula[] = [];
+  @Output() cargarMas = new EventEmitter();
+
+  slideOpts={
+    slidesPerView: 3.3,
+    spaceBetween: -10,
+    freeMode:true
   };
   constructor(
     private modalCtrl: ModalController
   ) { }
 
   ngOnInit() { }
+  mostrarMas(){
+    this.cargarMas.emit();
+  }
   /**Ver detalle */
   async verDetalle(id: string) {
     const modal = await this.modalCtrl.create({

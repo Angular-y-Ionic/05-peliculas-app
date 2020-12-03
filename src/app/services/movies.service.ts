@@ -11,7 +11,7 @@ const apiKey = environment.apiKey;
   providedIn: 'root'
 })
 export class MoviesService {
-
+ private popularesPage:number = 0;
   constructor(
     private http: HttpClient,
     private datePipe: DatePipe
@@ -28,5 +28,10 @@ export class MoviesService {
     let dinit = this.datePipe.transform(dInit, "yyyy-MM-dd");
     let dend = this.datePipe.transform(dEnd, "yyyy-MM-dd");
     return this.ejecutarQuery<RespuestaMDB>(`/discover/movie?primary_release_date.gte=${dinit}&primary_release_date.lte=${dend}`);
+  }
+  getPopulares(){
+    this.popularesPage ++;
+    let query = `/discover/movie?sort_by=popularity.desc&page=${this.popularesPage}`;
+    return this.ejecutarQuery<RespuestaMDB>(query);
   }
 }
